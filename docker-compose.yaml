@@ -1,0 +1,29 @@
+version: '3.6'
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: ${PROJECT}-mysql
+    restart: always
+    mem_limit: 3G
+    tmpfs:
+      - /var/lib/mysql:size=1g
+      - /tmp:size=512m
+    environment:
+      - MYSQL_ROOT_PASSWORD=test
+      - MYSQL_DATABASE=hexancore_dev
+      - MYSQL_INITDB_SKIP_TZINFO
+    ports:
+      - 10020:3306
+  postgres:
+    image: bitnami/postgresql:15
+    container_name: ${PROJECT}-postgress
+    restart: always
+    mem_limit: 3G
+    tmpfs:
+      - /bitnami/postgresql:size=1g
+      - /tmp:size=512m
+    environment:
+      - POSTGRESQL_PASSWORD=test
+      - POSTGRESQL_DATABASE=hexancore_dev
+    ports:
+      - 10021:5432

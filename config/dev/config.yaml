@@ -1,0 +1,12 @@
+core:
+  typeorm:
+    type: postgres
+    host: 127.0.0.1
+    port: 10021
+    username: root
+    password: test
+    database: hexancore_dev
+    synchronize_schema: true
+    charset: utf8
+    retry_attempts: 2
+    retry_delay: 5000
