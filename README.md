@@ -3,9 +3,8 @@
 </p>
 
 <h1 align="center">Hexancore</h1>
-
 <p align="center">Fullstack typescript framework based on NestJS for building epic hexagonal architecture designed apps.</p>
-
+<h2 align="center">Package: TypeORM</h2>
 <p align="center">
   <img alt="Build" src="https://img.shields.io/github/actions/workflow/status/hexancore/typeorm/release">
   <a href="https://www.npmjs.com/package/@hexancore/typeorm"><img src="https://img.shields.io/npm/v/@hexancore/typeorm.svg" alt="NPM Version" /></a>
