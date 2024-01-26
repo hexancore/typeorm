@@ -1,8 +1,8 @@
+import { DataSourceContext } from '@/DataSource/DataSourceContext';
 import { AR, AppError, ERR, GetQueryOptions, IGNORE_ERROR, INTERNAL_ERROR, OK, OKA, P, isIgnoreError, wrapToArray } from '@hexancore/common';
 import { AbstractEntityCommon, AbstractEntityPersister, AbstractEntityRepositoryCommon, EntityIdTypeOf, EntityMetaCommon } from '@hexancore/core';
 import { DataSource, EntityManager, EntityMetadata, FindManyOptions, FindOneOptions, Repository, UpdateValuesMissingError } from 'typeorm';
 import { ColumnMetadata } from 'typeorm/metadata/ColumnMetadata';
-import { DataSourceContext } from '../../DataSource/DataSourceContext';
 
 const SAVE_ERROR_HANDLER = (e: Error) => (e instanceof UpdateValuesMissingError ? IGNORE_ERROR() : INTERNAL_ERROR(e));
 
@@ -26,8 +26,8 @@ export class TypeOrmEntityPersister<T extends AbstractEntityCommon<any>, M exten
   }
 
   protected doPersist(entities: T[]): AR<boolean> {
-    return this.getEntityManager().onOk((em) => {
-      return P(em.save(entities), SAVE_ERROR_HANDLER).onErr((e: AppError) => {
+    return this.getTypeOrmRepository().onOk((r) => {
+      return P(r.save(entities), SAVE_ERROR_HANDLER).onErr((e: AppError) => {
         if (!isIgnoreError(e)) {
           if (e.message.startsWith('Duplicate entry')) {
             return this.DUPLICATE({ message: e.message });
@@ -85,7 +85,7 @@ export class TypeOrmEntityPersister<T extends AbstractEntityCommon<any>, M exten
   public delete(entity: T | T[]): AR<number> {
     return this.getEntityManager().onOk((em) => {
       const entities = wrapToArray(entity);
-      return P(em.remove(entities)).map(() => entities.length);
+      return P(em.remove(entities)).onOk(() => entities.length);
     });
   }
 
@@ -125,7 +125,7 @@ export class TypeOrmEntityPersister<T extends AbstractEntityCommon<any>, M exten
   }
 
   protected getTypeOrmRepository(): AR<Repository<T>> {
-    return this.getEntityManager().map((em) => em.getRepository(this.entityMeta.entityClass));
+    return this.getEntityManager().onOk((em) => em.getRepository(this.entityMeta.entityClass));
   }
 
   protected getEntityManager(): AR<EntityManager> {

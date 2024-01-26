@@ -1,27 +1,26 @@
 version: '3.6'
 services:
-  mysql:
-    image: mysql:8.0
-    container_name: ${PROJECT}-mysql
+  mariadb:
+    image: mariadb:11.2.2-jammy
+    container_name: ${PROJECT}-mariadb
     restart: always
-    mem_limit: 3G
+    mem_limit: 320M
+    volumes:
+      - ./docker/mysql:/etc/mysql/conf.d:ro
     tmpfs:
-      - /var/lib/mysql:size=1g
-      - /tmp:size=512m
+      - /tmp:size=64M
     environment:
-      - MYSQL_ROOT_PASSWORD=test
-      - MYSQL_DATABASE=hexancore_dev
-      - MYSQL_INITDB_SKIP_TZINFO
+      - MARIADB_ROOT_PASSWORD=test
+      - MARIADB_DATABASE=hexancore_dev
     ports:
       - 10020:3306
   postgres:
     image: bitnami/postgresql:15
     container_name: ${PROJECT}-postgress
     restart: always
-    mem_limit: 3G
+    mem_limit: 256M
     tmpfs:
-      - /bitnami/postgresql:size=1g
-      - /tmp:size=512m
+      - /tmp:size=64M
     environment:
       - POSTGRESQL_PASSWORD=test
       - POSTGRESQL_DATABASE=hexancore_dev

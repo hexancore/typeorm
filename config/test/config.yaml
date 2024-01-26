@@ -1,27 +1,19 @@
 core:
   typeorm-mysql:
-    type: mysql
+    type: mariadb
     host: 127.0.0.1
     port: 10020
-    username: root
-    password: test
-    database: hexancore_dev
-    synchronize_schema: true
-    drop_schema: true
-    charset: utf8
-    retry_attempts: 2
-    retry_delay: 5000
-    entities: ['test/helper/**/*{.js,.ts}']
+    synchronizeSchema: true
+    dropSchema: true
+    retryAttempts: 4
+    retryDelay: 3000
+    authSecretKey: core.typeorm.mysql
   typeorm-postgres:
     type: postgres
     host: 127.0.0.1
     port: 10021
-    username: postgres
-    password: test
-    database: hexancore_dev
-    synchronize_schema: true
-    drop_schema: true
-    charset: utf8
-    retry_attempts: 2
-    retry_delay: 5000
-    entities: ['test/helper/**/*{.js,.ts}']
+    synchronizeSchema: true
+    dropSchema: true
+    retryAttempts: 4
+    retryDelay: 3000
+    authSecretKey: core.typeorm.postgres

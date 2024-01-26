@@ -2,12 +2,13 @@
  * @group integration
  */
 
-import { HcTypeOrmModule } from '@';
-import { AggregateRootRepositoryManager, HcModule } from '@hexancore/core';
+import { AccountId } from '@hexancore/common';
+import { HcTypeOrmModule} from '@';
+import { AccountContext, AggregateRootRepositoryManager, HcModule } from '@hexancore/core';
 import { Test, TestingModule } from '@nestjs/testing';
-import { AuthorId, BookId, CompositeAuthor, CompositeBook } from '@test/Module/Test/Domain/test_entities';
-import { CompositeAuthorRepository, TestDataSourceContextIdProvider } from '@test/Module/Test/Domain/test_repositories';
+import { AuthorId, BookId, CompositeAuthor, CompositeAuthorRepository, CompositeBook } from '@test/Module/Test/Domain/test_entities';
 import { PrivateTestInfraModule } from '@test/Module/Test/Infrastructure/PrivateTestInfraModule';
+import { ClsService } from 'nestjs-cls';
 
 describe('CompositePrimaryKey', () => {
   let module: TestingModule;
@@ -17,8 +18,11 @@ describe('CompositePrimaryKey', () => {
     beforeEach(async () => {
       module = await Test.createTestingModule({
         imports: [
-          HcModule,
-          HcTypeOrmModule.forRoot({ dataSourceContextIdProvider: new TestDataSourceContextIdProvider(), configPath: 'core.typeorm-'+driver }),
+          HcModule.forRoot({ cls: true, accountContext: {useCls: true, currentAccountId: AccountId.cs("test")} }),
+          HcTypeOrmModule.forRoot({
+            configPath: 'core.typeorm-' + driver,
+            accountContext: true,
+          }),
           PrivateTestInfraModule,
         ],
       }).compile();
@@ -33,41 +37,47 @@ describe('CompositePrimaryKey', () => {
     });
 
     test('persist()', async () => {
-      const author = new CompositeAuthor();
-      const book1 = new CompositeBook(BookId.cs(1), 'test_1ęął');
-      author.books.add(book1);
-      const book2 = new CompositeBook(BookId.cs(2), 'test_2');
-      author.books.add(book2);
+      await module.get(ClsService).run(async () => {
+        module.get(AccountContext).set(AccountId.cs('hexancore_dev'));
+        const author = new CompositeAuthor();
+        const book1 = new CompositeBook(BookId.cs(1), 'test_1ęął');
+        author.books.add(book1);
+        const book2 = new CompositeBook(BookId.cs(2), 'test_2');
+        author.books.add(book2);
 
-      const rp = await authorRepository.persist(author);
-      expect(rp).toMatchSuccessResult(true);
+        const rp = await authorRepository.persist(author);
+        expect(rp).toMatchSuccessResult(true);
 
-      const r = await authorRepository.getAllAsArray();
-      expect(r.v[0].id).toEqual(author.id);
+        const r = await authorRepository.getAllAsArray();
+        expect(r.v[0].id).toEqual(author.id);
 
-      const abr = await r.v[0].books.getAllAsArray();
-      const ab = abr.v;
-      expect(ab.length).toBe(2);
-      expect(ab).toEqual([book1, book2]);
+        const abr = await r.v[0].books.getAllAsArray();
+        const ab = abr.v;
+        expect(ab.length).toBe(2);
+        expect(ab).toEqual([book1, book2]);
 
-      const currentBookById = await r.v[0].books.getById(ab[0].id);
-      expect(currentBookById).toMatchSuccessResult(book1);
+        const currentBookById = await r.v[0].books.getById(ab[0].id);
+        expect(currentBookById).toMatchSuccessResult(book1);
+      });
     });
 
     test('getById() when not exists', async () => {
-      const id = AuthorId.cs(1);
-      const r = await authorRepository.getById(id);
+      await module.get(ClsService).run(async () => {
+        module.get(AccountContext).set(AccountId.cs('hexancore_dev'));
+        const id = AuthorId.cs(1);
+        const r = await authorRepository.getById(id);
 
-      const expectedError = {
-        type: 'test.domain.entity.composite_author.not_found',
-        code: 404,
-        data: {
-          searchCriteria: {
-            id,
+        const expectedError = {
+          type: 'test.domain.entity.composite_author.not_found',
+          code: 404,
+          data: {
+            searchCriteria: {
+              id,
+            },
           },
-        },
-      };
-      expect(r).toMatchAppError(expectedError);
+        };
+        expect(r).toMatchAppError(expectedError);
+      });
     });
   });
 });

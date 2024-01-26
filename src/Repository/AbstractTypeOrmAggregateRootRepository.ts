@@ -7,7 +7,7 @@ export abstract class AbstractTypeOrmAggregateRootRepository<
   P extends TypeOrmEntityPersister<T, AggregateRootMeta<T>> = TypeOrmEntityPersister<T, AggregateRootMeta<T>>,
 > extends AbstractAggregateRootRepository<T, P> {
   public getById(id: EntityIdTypeOf<T>): AR<T> {
-    return this.persister.getById(id).map((entity) => {
+    return this.persister.getById(id).onOk((entity) => {
       this.injectCollectionQueries(entity);
       return entity;
     });

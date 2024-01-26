@@ -1,17 +1,15 @@
 /* eslint-disable @typescript-eslint/ban-types */
 
-import { DateTime, DefineDomainErrors, UIntValue, ValueObject, standard_entity_errors } from '@hexancore/common';
-import { AbstractAggregateRoot, AbstractEntity, AggregateRoot, Entity, EntityCollection, IEntityCollection } from '@hexancore/core';
-
-export const TestDomainError = DefineDomainErrors(
-  'Test',
-  new (class {
-    public entity_book: standard_entity_errors = 'not_found';
-    public entity_author: standard_entity_errors | 'custom_1' = 'not_found';
-    public entity_composite_author: standard_entity_errors | 'custom_1' = 'not_found';
-    public other_error = '';
-  })(),
-);
+import { DateTime, UIntValue, ValueObject } from '@hexancore/common';
+import {
+  AbstractAggregateRoot,
+  AbstractEntity,
+  AggregateRoot,
+  Entity,
+  EntityCollection,
+  IAggregateRootRepository,
+  IEntityCollection,
+} from '@hexancore/core';
 
 @ValueObject('Test')
 export class BookId extends UIntValue {}
@@ -56,7 +54,7 @@ export class CompositeBook extends AbstractEntity<BookId, CompositeAuthor> {
   }
 }
 
-@AggregateRoot({entityRootIdProperty: 'authorId'})
+@AggregateRoot({ entityRootIdProperty: 'authorId' })
 export class CompositeAuthor extends AbstractAggregateRoot<AuthorId> {
   @EntityCollection(CompositeBook)
   public declare readonly books: IEntityCollection<CompositeBook>;
@@ -66,3 +64,8 @@ export class CompositeAuthor extends AbstractAggregateRoot<AuthorId> {
     return this.proxify();
   }
 }
+
+export interface AuthorRepository extends IAggregateRootRepository<Author> {}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface CompositeAuthorRepository extends IAggregateRootRepository<CompositeAuthor> {}
