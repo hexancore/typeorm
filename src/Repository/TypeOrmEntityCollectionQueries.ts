@@ -1,4 +1,4 @@
-import { AR, ERRA, LogicError, OKA, R } from '@hexancore/common';
+import { AR, ERR, ERRA, LogicError, OK, OKA, R } from '@hexancore/common';
 import { AbstractEntity, EntityCollectionImpl, EntityCollectionQueriesImpl, EntityIdTypeOf } from '@hexancore/core';
 import { AbstractTypeOrmEntityRepository } from './AbstractTypeOrmEntityRepository';
 
@@ -23,11 +23,11 @@ export class TypeOrmEntityCollectionQueries<T extends AbstractEntity<any, any>, 
       const entities = await that.r.getByRootId(that.collection.rootId);
 
       if (entities.isError()) {
-        yield ERRA<T>(entities.e).promise;
+        yield ERR<T>(entities.e);
       }
 
       for (const entity of entities.v) {
-        yield OKA(entity);
+        yield OK(entity);
       }
 
       return;

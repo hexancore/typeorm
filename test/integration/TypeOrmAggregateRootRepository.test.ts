@@ -2,13 +2,12 @@
  * @group integration
  */
 
-import { HcTypeOrmModule, createAppEntitiesProviderFn } from '@/HcTypeOrmModule';
+import { HcTypeOrmModule } from '@/HcTypeOrmModule';
 import { OK, AccountId } from '@hexancore/common';
 import { AccountContext, AggregateRootRepositoryManager, HcModule } from '@hexancore/core';
 import { Test, TestingModule } from '@nestjs/testing';
 import { Author, AuthorId, AuthorRepository, Book } from '@test/Module/Test/Domain/test_entities';
 import { PrivateTestInfraModule } from '@test/Module/Test/Infrastructure/PrivateTestInfraModule';
-import { APP_SOURCE_ROOT_DIR } from '@test/index';
 import { ClsService } from 'nestjs-cls';
 
 describe('TypeOrmAggregateRootRepository', () => {

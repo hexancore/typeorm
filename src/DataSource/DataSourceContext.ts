@@ -1,12 +1,12 @@
 import { DataSource, EntityManager } from 'typeorm';
 import { DataSourceManager, WeakDataSourceRef } from './DataSourceManager';
 import { DataSourceContextConfig } from './DataSourceContextConfig';
-import { AR, InternalError } from '@hexancore/common/lib/mjs';
+import { AR } from '@hexancore/common/lib/mjs';
 
 export abstract class DataSourceContext {
   public constructor(private manager: DataSourceManager) {}
 
-  public get(): AR<WeakDataSourceRef, InternalError> {
+  public get(): AR<WeakDataSourceRef> {
     return this.getConfig().onOk((config) => {
       return this.manager.get(config);
     }) as any;
