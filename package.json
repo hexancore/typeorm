@@ -53,7 +53,8 @@
   "scripts": {
     "build": "nest -p tsconfig.build.json build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "lint": "eslint \"{src,test}/**/*.ts\" --fix",
+    "lint": "eslint \"{src,test}/**/*.ts\"",
+    "lint:fix": "eslint \"{src,test}/**/*.ts\" --fix",
     "test": "jest --config .jestrc.json  --runInBand",
     "test:clearCache": "jest --config .jestrc.json  --clearCache",
     "test:unit": "jest --config .jestrc.json --runInBand --group=unit",

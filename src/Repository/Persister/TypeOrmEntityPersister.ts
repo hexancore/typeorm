@@ -1,5 +1,5 @@
 import { DataSourceContext } from '@/DataSource/DataSourceContext';
-import { AR, AppError, ERR, GetQueryOptions, IGNORE_ERROR, INTERNAL_ERROR, OK, OKA, P, isIgnoreError, wrapToArray } from '@hexancore/common';
+import { AR, ARW, AppError, ERR, GetQueryOptions, IGNORE_ERROR, INTERNAL_ERROR, OK, OKA, P, isIgnoreError, wrapToArray } from '@hexancore/common';
 import { AbstractEntityCommon, AbstractEntityPersister, AbstractEntityRepositoryCommon, EntityIdTypeOf, EntityMetaCommon } from '@hexancore/core';
 import { DataSource, EntityManager, EntityMetadata, FindManyOptions, FindOneOptions, Repository, UpdateValuesMissingError } from 'typeorm';
 import { ColumnMetadata } from 'typeorm/metadata/ColumnMetadata';
@@ -26,17 +26,19 @@ export class TypeOrmEntityPersister<T extends AbstractEntityCommon<any>, M exten
   }
 
   protected doPersist(entities: T[]): AR<boolean> {
-    return this.getTypeOrmRepository().onOk((r) => {
-      return P(r.save(entities), SAVE_ERROR_HANDLER).onErr((e: AppError) => {
-        if (!isIgnoreError(e)) {
-          if (e.message.startsWith('Duplicate entry')) {
-            return this.DUPLICATE({ message: e.message });
+    return this.getTypeOrmRepository()
+      .onOk((r) =>
+        ARW(r.save(entities), SAVE_ERROR_HANDLER).onErr((e) => {
+          if (!isIgnoreError(e)) {
+            if (e.message.startsWith('Duplicate entry')) {
+              return this.DUPLICATE<boolean>({ message: e.message });
+            }
+            return ERR<boolean>(e);
           }
-          return ERR<boolean>(e);
-        }
-        return OK(true);
-      });
-    });
+          return true;
+        }),
+      )
+      .mapToTrue();
   }
 
   public getById(id: EntityIdTypeOf<T>): AR<T> {
@@ -59,12 +61,12 @@ export class TypeOrmEntityPersister<T extends AbstractEntityCommon<any>, M exten
 
   public getOneBy(options: FindOneOptions<T>): AR<T> {
     return this.getTypeOrmRepository().onOk((r) => {
-      return P(r.findOne(options)).onOk((entity: T) => {
+      return ARW(r.findOne(options)).onOk((entity: T) => {
         if (!entity) {
-          return this.NOT_FOUND(options.where);
+          return this.NOT_FOUND<T>(options.where);
         }
         this.markAsTracked([entity]);
-        return OK<T>(entity);
+        return entity;
       });
     });
   }

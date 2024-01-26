@@ -1,4 +1,4 @@
-import { AR, AsyncResult, INTERNAL_ERR, INTERNAL_ERRA, P, RetryHelper } from '@hexancore/common';
+import { AR, ARW, AsyncResult, INTERNAL_ERR, INTERNAL_ERRA, P, RetryHelper, RetryMaxAttemptsError } from '@hexancore/common';
 import { DataSource, EntitySchema } from 'typeorm';
 import { MysqlConnectionOptions } from 'typeorm/driver/mysql/MysqlConnectionOptions';
 import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions';
@@ -20,7 +20,7 @@ export class DataSourceFactory {
     this.options.maxRetryAttempts = this.options.maxRetryAttempts ?? 10;
   }
 
-  public create(config: DataSourceContextConfig): AR<DataSource> {
+  public create(config: DataSourceContextConfig): AR<DataSource, RetryMaxAttemptsError> {
     const database = this.getDatabase(config.id);
     const entities = TypeOrmGlobalSchemaManager.getByPersisterType(config.persisterType);
     const options: ConnectionOptions | any = {
@@ -29,29 +29,27 @@ export class DataSourceFactory {
       entities,
     };
 
-    return new AsyncResult(
-      RetryHelper.retryAsync(
-        () => {
-          let ds: DataSource = null;
-          try {
-            ds = new DataSource(options);
-            return P(ds.initialize());
-          } catch (e) {
-            if (ds && ds.isInitialized) {
-              return P(ds.destroy())
-                .onOk(() => INTERNAL_ERR(e))
-                .onErr(() => INTERNAL_ERR(e));
-            }
-
-            return INTERNAL_ERRA(e);
+    return RetryHelper.retryAsync(
+      () => {
+        let ds: DataSource = null;
+        try {
+          ds = new DataSource(options);
+          return ARW(ds.initialize());
+        } catch (e) {
+          if (ds && ds.isInitialized) {
+            return ARW(ds.destroy())
+              .onOk(() => INTERNAL_ERR<DataSource, any>(e))
+              .onErr(() => INTERNAL_ERR<DataSource, any>(e));
           }
-        },
-        {
-          id: 'create_typeorm_data_source_' + config.id,
-          retryDelay: this.options.retryDelay,
-          maxAttempts: this.options.maxRetryAttempts,
-        },
-      ),
+
+          return INTERNAL_ERRA(e);
+        }
+      },
+      {
+        id: 'create_typeorm_data_source_' + config.id,
+        retryDelay: this.options.retryDelay,
+        maxAttempts: this.options.maxRetryAttempts,
+      },
     );
   }
 
