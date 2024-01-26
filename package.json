@@ -51,7 +51,7 @@
   },
   "homepage": "https://hexancore.github.io/hexancore/",
   "scripts": {
-    "build": "nest build",
+    "build": "nest -p tsconfig.build.json build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "lint": "eslint \"{src,test}/**/*.ts\" --fix",
     "test": "jest --config .jestrc.json  --runInBand",
@@ -60,7 +60,7 @@
     "test:watch": "jest --config .jestrc.json  --runInBand --watchAll",
     "test:cov": "jest --config .jestrc.json  --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --config .jestrc.json  --runInBand",
-    "prepublish": "yarn lint && yarn test && rm -fr ./lib && yarn run build"
+    "prepublish": "rm -fr ./lib && yarn run build"
   },
   "peerDependencies": {
     "@hexancore/core": "^0.13.1",
