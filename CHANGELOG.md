@@ -6,6 +6,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## Added
+
+- added mariadb dep to peer dependencies as optional
+- 
+## Changed
+
+- updated @hexancore/common to 0.13.1
+- updated @hexancore/core to 0.13.1
+
 ## [0.12.0] - 2023-12-26
 
 ### Added
@@ -13,5 +22,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - First release(start from 0.12 for consistency)
 - Implemented generic from domain infrastructre from Hexancore
 
-[unreleased] https://github.com/hexancore/core/compare/0.12.0...HEAD  
-[0.12.0] https://github.com/hexancore/core/compare/0.12.0  
+[unreleased] https://github.com/hexancore/core/compare/0.12.0...HEAD   
+[0.12.0] https://github.com/hexancore/core/compare/0.12.0   

@@ -3,11 +3,32 @@ import { Injectable, applyDecorators } from '@nestjs/common';
 import { EntitySchema } from 'typeorm';
 import { AbstractTypeOrmAggregateRootRepository } from './AbstractTypeOrmAggregateRootRepository';
 import { AbstractTypeOrmEntityRepository } from './AbstractTypeOrmEntityRepository';
+import * as path from 'path';
+import { LogicError } from '@hexancore/common';
+import { getHcPersisterTypeFromSchema } from '@/Schema/TypeOrmEntitySchema';
 
-export const TYPEORM_PERSISTER_TYPE = 'typeorm';
+export const TYPEORM_SYSTEM_PERSISTER_TYPE = 'typeorm_system';
+export const TYPEORM_ACCOUNT_PERSISTER_TYPE = 'typeorm_account';
 
 export type AnyTypeOrmEntityRepository = AbstractTypeOrmEntityRepository<any, any>;
 export type TypeOrmEntityRepositoryConstructor<T extends AnyTypeOrmEntityRepository> = new (...args: any[]) => T;
+
+function extractPersisterTypeFromPath(p: string): string {
+  p = p.split(path.sep).join(path.posix.sep);
+
+  const matches = p.match(/TypeOrm\/(System|Account)\/.+/);
+  if (matches) {
+    const type = matches[1];
+    switch (type) {
+      case 'System':
+        return TYPEORM_SYSTEM_PERSISTER_TYPE;
+      case 'Account':
+        return TYPEORM_ACCOUNT_PERSISTER_TYPE;
+      default:
+        throw new LogicError('Wrong entity repository path: ' + p);
+    }
+  }
+}
 
 /**
  * Decorator for entity repository
@@ -18,7 +39,7 @@ export function TypeOrmEntityRepository<T extends AnyEntity, R extends AbstractT
   schema: EntitySchema<T>,
 ): (constructor: TypeOrmEntityRepositoryConstructor<R>) => void {
   return function (constructor) {
-    EntityRepository(schema.options.target as any, TYPEORM_PERSISTER_TYPE)(constructor);
+    EntityRepository(schema.options.target as any, getHcPersisterTypeFromSchema(schema))(constructor);
   };
 }
 
@@ -33,5 +54,6 @@ export type TypeOrmAggregateRootRepositoryConstructor<T extends AnyTypeOrmAggreg
 export function TypeOrmAggregateRootRepository<T extends AnyAggregateRoot, R extends AbstractTypeOrmAggregateRootRepository<T>>(
   schema: EntitySchema<T>,
 ): (constructor: TypeOrmAggregateRootRepositoryConstructor<R>) => void {
-  return applyDecorators(AggregateRootRepository(schema.options.target as any, TYPEORM_PERSISTER_TYPE), Injectable());
+
+  return applyDecorators(AggregateRootRepository(schema.options.target as any, getHcPersisterTypeFromSchema(schema)), Injectable());
 }

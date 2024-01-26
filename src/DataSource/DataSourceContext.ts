@@ -1,27 +1,24 @@
 import { DataSource, EntityManager } from 'typeorm';
 import { DataSourceManager, WeakDataSourceRef } from './DataSourceManager';
-import { AR, AsyncResult, PS } from '@hexancore/common';
+import { DataSourceContextConfig } from './DataSourceContextConfig';
+import { AR, InternalError } from '@hexancore/common/lib/mjs';
 
-export interface DataSourceContextIdProvider {
-  get(): string;
-}
+export abstract class DataSourceContext {
+  public constructor(private manager: DataSourceManager) {}
 
-export class DataSourceContext {
-  public constructor(
-    private manager: DataSourceManager,
-    private idProvider: DataSourceContextIdProvider,
-  ) {}
-
-  public get(): AR<WeakDataSourceRef> {
-    const id = this.idProvider.get();
-    return new AsyncResult(this.manager.get(id));
+  public get(): AR<WeakDataSourceRef, InternalError> {
+    return this.getConfig().onOk((config) => {
+      return this.manager.get(config);
+    }) as any;
   }
 
+  protected abstract getConfig(): AR<DataSourceContextConfig>;
+
   public getDataSource(): AR<DataSource> {
-    return this.get().map((r) => r.ds);
+    return this.get().onOk((r) => r.ds);
   }
 
   public getEntityManager(): AR<EntityManager> {
-    return this.get().map((r) => r.em);
+    return this.get().onOk((r) => r.em);
   }
 }

@@ -1,18 +1,18 @@
 import { DataSource, EntityManager } from 'typeorm';
 import { DataSourceFactory } from './DataSourceFactory';
 import { AR, ARP, CurrentTime, DateTime, ERR, Logger, OK, OKA, P, getLogger } from '@hexancore/common';
+import { DataSourceContextConfig } from './DataSourceContextConfig';
 
 export interface WeakDataSourceRef {
   ds?: DataSource;
   em?: EntityManager;
   lastUsedTime: number;
+  durable: boolean;
   initPromise?: AR<WeakDataSourceRef>;
 }
 
 export class DataSourceManager {
   private map: Map<string, WeakDataSourceRef>;
-
-  private closeIdleIntervalHandle: NodeJS.Timeout;
   private logger: Logger;
 
   public constructor(
@@ -24,13 +24,14 @@ export class DataSourceManager {
     this.logger = getLogger('core.typeorm.infra.data_source');
   }
 
-  public async get(id: string): ARP<WeakDataSourceRef> {
+  public async get(context: DataSourceContextConfig): ARP<WeakDataSourceRef> {
+    const id = context.id;
     let ref = this.map.get(id);
     if (!ref) {
-      ref = { lastUsedTime: this.ct.now.t };
+      ref = { lastUsedTime: this.ct.now.t, durable: context.durable };
       this.map.set(id, ref);
 
-      const initPromise = this.factory.create(id).onOk((ds: DataSource) => {
+      const initPromise = this.factory.create(context).onOk((ds: DataSource) => {
         ref.initPromise = null;
         ref.ds = ds;
         ref.em = ds.manager;
@@ -68,7 +69,7 @@ export class DataSourceManager {
     const listToClose = [];
 
     this.map.forEach((ref, id) => {
-      if (now.t - ref.lastUsedTime > this.maxIdleSec) {
+      if (!ref.durable && (now.t - ref.lastUsedTime > this.maxIdleSec)) {
         this.map.delete(id);
         listToClose.push(this.close(id, ref));
       }
@@ -94,9 +95,5 @@ export class DataSourceManager {
         this.logger.error('Error when closing idle data source: ' + id, e);
         return ERR(e);
       });
-  }
-
-  public unregisterCloseIdleInterval(): void {
-    clearInterval(this.closeIdleIntervalHandle);
   }
 }

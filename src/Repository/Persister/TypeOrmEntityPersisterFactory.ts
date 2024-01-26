@@ -1,6 +1,6 @@
 import { AbstractEntityPersister, AbstractEntityRepositoryCommon, IEntityPersisterFactory } from '@hexancore/core';
-import { DataSourceContext } from '../../DataSource/DataSourceContext';
 import { TypeOrmEntityPersister } from './TypeOrmEntityPersister';
+import { DataSourceContext } from '../../DataSource/DataSourceContext';
 
 export class TypeOrmEntityPersisterFactory implements IEntityPersisterFactory {
   public constructor(private context: DataSourceContext) {}
