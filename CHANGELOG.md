@@ -6,12 +6,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## Added
+
+- RefIdColumn
+- StringValueColumn
+
+## Changed
+
+- Updated @hexancore/common to 0.13.2
+- Updated @hexancore/core to 0.13.2
+
 ## [0.13.0] - 2024-01-26
 
 ## Added
 
-- added mariadb dep to peer dependencies as optional
-- 
+- Added mariadb dep to peer dependencies as optional
+
 ## Changed
 
 - updated @hexancore/common to 0.13.1

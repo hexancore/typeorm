@@ -1,8 +1,8 @@
-import { EntitySchemaColumnOptions, ValueTransformer } from 'typeorm';
+import { EntitySchemaColumnOptions } from 'typeorm';
 import { DateTime } from '@hexancore/common';
-import { ValueObjectAsPrimaryKeyColumnOptions, ValueObjectTypeOrmColumn, ValueObjectTypeOrmColumnOptions } from './ValueObjectTypeOrmColumn';
+import { ValueObjectAsPrimaryKeyColumnOptions, ValueObjectTypeOrmColumn, ValueObjectTypeOrmColumnOptions, SelfValueObjectTypeOrmColumn } from './ValueObjectTypeOrmColumn';
 
-export const DateTimeColumn: ValueObjectTypeOrmColumn = {
+export const DateTimeColumn: ValueObjectTypeOrmColumn&SelfValueObjectTypeOrmColumn = {
   asRaw(options: ValueObjectTypeOrmColumnOptions = { nullable: false }): EntitySchemaColumnOptions {
     return {
       type: 'timestamp',
@@ -17,10 +17,7 @@ export const DateTimeColumn: ValueObjectTypeOrmColumn = {
     s.transformer = {
       to: (v?: DateTime): Date | null => (v ? v.toNativeDate() : null),
       from: (v: string | Date): Date | null => {
-        if (typeof v === 'string') {
-          v = new Date(v);
-        }
-        return v ? voConstructor.cs(v) : null;
+        return v !== null ? voConstructor.cs(v) : null;
       },
     };
     return s;
