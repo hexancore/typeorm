@@ -34,7 +34,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - First release(start from 0.12 for consistency)
 - Implemented generic from domain infrastructre from Hexancore
 
-[unreleased] https://github.com/hexancore/core/compare/0.13.1...HEAD   
-[0.13.1] https://github.com/hexancore/core/compare/0.13.0...0.13.1   
-[0.13.0] https://github.com/hexancore/core/compare/0.12.0...0.13.0   
-[0.12.0] https://github.com/hexancore/core/compare/0.12.0     
+[unreleased] https://github.com/hexancore/typeorm/compare/0.13.1...HEAD   
+[0.13.1] https://github.com/hexancore/typeorm/compare/0.13.0...0.13.1   
+[0.13.0] https://github.com/hexancore/typeorm/compare/0.12.0...0.13.0   
+[0.12.0] https://github.com/hexancore/typeorm/compare/0.12.0     
