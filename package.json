@@ -64,6 +64,7 @@
     "prepublish": "rm -fr ./lib && yarn run build"
   },
   "peerDependencies": {
+    "@hexancore/common": "^0.13.2",
     "@hexancore/core": "^0.13.1",
     "mariadb": "^3.2.3",
     "mysql2": "^3.6.5",
@@ -82,11 +83,11 @@
     }
   },
   "dependencies": {
-    "@hexancore/common": "^0.13.1",
     "tslib": "^2.6.2"
   },
   "devDependencies": {
-    "@hexancore/core": "^0.13.1",
+    "@hexancore/common": "^0.13.2",
+    "@hexancore/core": "^0.13.2",
     "@hexancore/mocker": "^1.1.2",
     "@liaoliaots/nestjs-redis": "^9.0.5",
     "@nestjs/bull": "^10.0.1",

@@ -16,3 +16,7 @@ if (!existsSync(process.env['TEST_TMP_DIR'])) {
 process.on('unhandledRejection', (err) => {
   console.log(err);
 });
+
+export function setup(): void {
+  AppMeta.setProvider(EnvAppMetaProvider);
+}

@@ -33,8 +33,4 @@ export const UBigIntValueColumn: ValueObjectTypeOrmColumn = {
     s.generated = options.generated;
     return s;
   },
-
-  asSelf: function (options: ValueObjectTypeOrmColumnOptions = { nullable: false }): EntitySchemaColumnOptions {
-    return UBigIntValueColumn.as(UBigIntValue, options);
-  },
 };

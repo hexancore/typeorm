@@ -1,4 +1,4 @@
-import { ColumnType, EntitySchemaColumnOptions, ValueTransformer } from 'typeorm';
+import { EntitySchemaColumnOptions } from 'typeorm';
 
 export interface ValueObjectTypeOrmColumnOptions {
   nullable?: boolean;
@@ -10,12 +10,20 @@ export type ValueObjectAsPrimaryKeyColumnOptions = {
   generated?: true | null;
 };
 
+export interface RawValueObjectColumn<O extends ValueObjectTypeOrmColumnOptions = ValueObjectTypeOrmColumnOptions> {
+  asRaw(options?: O): EntitySchemaColumnOptions;
+}
+
 export interface ValueObjectTypeOrmColumn<
   O extends ValueObjectTypeOrmColumnOptions = ValueObjectTypeOrmColumnOptions,
   OP extends ValueObjectAsPrimaryKeyColumnOptions = ValueObjectAsPrimaryKeyColumnOptions,
-> {
-  asRaw(options?: O): EntitySchemaColumnOptions;
-  asSelf(options?: O): EntitySchemaColumnOptions;
+> extends RawValueObjectColumn {
   asPrimaryKey(voConstructor: any, options?: OP): EntitySchemaColumnOptions;
   as(voConstructor: any, options?: O): EntitySchemaColumnOptions;
+}
+
+export interface SelfValueObjectTypeOrmColumn<
+O extends ValueObjectTypeOrmColumnOptions = ValueObjectTypeOrmColumnOptions,
+> {
+  asSelf(options?: O): EntitySchemaColumnOptions;
 }

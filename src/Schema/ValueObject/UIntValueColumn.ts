@@ -37,8 +37,4 @@ export const UIntValueColumn: ValueObjectTypeOrmColumn<UIntValueColumnOptions, U
     s.generated = options.generated;
     return s;
   },
-
-  asSelf: function (_options: UIntValueColumnOptions = { type: 'int', nullable: false }): EntitySchemaColumnOptions {
-    throw new Error('Function not implemented.');
-  },
 };
