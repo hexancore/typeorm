@@ -61,7 +61,8 @@
     "test:watch": "jest --config .jestrc.json  --runInBand --watchAll",
     "test:cov": "jest --config .jestrc.json  --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --config .jestrc.json  --runInBand",
-    "prepublish": "rm -fr ./lib && yarn run build"
+    "prepublish": "rm -fr ./lib && yarn run build",
+    "deps:upgrade": "yarn add -D @hexancore/common @hexancore/core"
   },
   "peerDependencies": {
     "@hexancore/common": "^0.13.2",
@@ -69,7 +70,7 @@
     "mariadb": "^3.2.3",
     "mysql2": "^3.6.5",
     "pg": "^8.11.3",
-    "typeorm": "^0.3.19"
+    "typeorm": "^0.3.20"
   },
   "peerDependenciesMeta": {
     "mariadb": {
@@ -86,7 +87,7 @@
     "tslib": "^2.6.2"
   },
   "devDependencies": {
-    "@hexancore/common": "^0.13.2",
+    "@hexancore/common": "^0.13.3",
     "@hexancore/core": "^0.13.2",
     "@hexancore/mocker": "^1.1.2",
     "@liaoliaots/nestjs-redis": "^9.0.5",
@@ -132,7 +133,7 @@
     "ts-paths-esm-loader": "^1.4.3",
     "tsconfig-paths": "^4.2.0",
     "tsx": "^4.7.0",
-    "typeorm": "^0.3.19",
+    "typeorm": "^0.3.20",
     "typescript": "5.3.3"
   },
   "bugs": {

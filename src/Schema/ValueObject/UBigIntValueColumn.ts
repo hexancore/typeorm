@@ -28,7 +28,7 @@ export const UBigIntValueColumn: ValueObjectTypeOrmColumn = {
   },
 
   asPrimaryKey(voConstructor: VOCtor, options: ValueObjectAsPrimaryKeyColumnOptions = { generated: true }): EntitySchemaColumnOptions {
-    const s = UBigIntValueColumn.as(voConstructor);
+    const s: any = UBigIntValueColumn.as(voConstructor);
     s.primary = true;
     s.generated = options.generated;
     return s;

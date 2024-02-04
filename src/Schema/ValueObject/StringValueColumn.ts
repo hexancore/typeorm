@@ -35,7 +35,7 @@ export const StringValueColumn: ValueObjectTypeOrmColumn<StringValueColumnOption
   },
 
   asPrimaryKey(voConstructor: VOCtor, options: StringPrimaryKeyColumnOptions = { generated: true, type: 'varchar', length: 255 }): EntitySchemaColumnOptions {
-    const s = StringValueColumn.as(voConstructor);
+    const s: any = StringValueColumn.as(voConstructor);
     s.primary = true;
     s.generated = options.generated;
     return s;
