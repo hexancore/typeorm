@@ -19,8 +19,11 @@ export interface ValueObjectTypeOrmColumn<
   OP extends ValueObjectAsPrimaryKeyColumnOptions = ValueObjectAsPrimaryKeyColumnOptions,
 > extends RawValueObjectColumn<O> {
   asPrimaryKey(voConstructor: any, options?: OP): EntitySchemaColumnOptions;
-  asPrimaryKeyIdentity?(voConstructor: any, options?: Omit<OP, 'generated'>): EntitySchemaColumnOptions;
   as(voConstructor: any, options?: O): EntitySchemaColumnOptions;
+}
+
+export interface PKValueObjectColumn<OP extends ValueObjectAsPrimaryKeyColumnOptions = ValueObjectAsPrimaryKeyColumnOptions> {
+  asPrimaryKeyIdentity(voConstructor: any, options?: Omit<OP, 'generated'>): EntitySchemaColumnOptions;
 }
 
 export interface SelfValueObjectTypeOrmColumn<
