@@ -1,4 +1,4 @@
-import { EntitySchemaColumnOptions } from 'typeorm';
+import { EntitySchemaColumnOptions, PrimaryGeneratedColumn } from 'typeorm';
 import { RefId} from '@hexancore/common';
 import { RawValueObjectColumn, SelfValueObjectTypeOrmColumn, ValueObjectTypeOrmColumnOptions } from './ValueObjectTypeOrmColumn';
 
@@ -9,7 +9,7 @@ const DEFAULT_OPTIONS: RefIdColumnOptions = { nullable: false };
 export const RefIdColumn: SelfValueObjectTypeOrmColumn&RawValueObjectColumn&{asPrimaryKey(): EntitySchemaColumnOptions}  = {
   asRaw(options: RefIdColumnOptions = DEFAULT_OPTIONS): EntitySchemaColumnOptions {
     return {
-      type: 'char',
+      type: 'varchar',
       length: 21,
       update: options.update,
       nullable: options.nullable,
@@ -31,4 +31,5 @@ export const RefIdColumn: SelfValueObjectTypeOrmColumn&RawValueObjectColumn&{asP
     s.primary = true;
     return s;
   },
+
 };

@@ -9,7 +9,15 @@ export type UIntValueColumnOptions = ValueObjectTypeOrmColumnOptions & {
   type: UIntColumnTypeOption;
 };
 
-export type UIntPrimaryKeyColumnOptions = ValueObjectAsPrimaryKeyColumnOptions & { type: UIntColumnTypeOption };
+export type PGGeneratedIdentityType = "ALWAYS" | "BY DEFAULT";
+
+export type UIntPrimaryKeyColumnOptions = ValueObjectAsPrimaryKeyColumnOptions & {
+  type: UIntColumnTypeOption,
+  generatedIdentity?: PGGeneratedIdentityType,
+  generationStrategy?: "uuid" | "increment" | "rowid" | "identity";
+};
+
+const defaultPKOptions: UIntPrimaryKeyColumnOptions = { generated: "increment", generatedIdentity: "ALWAYS", type: 'int' };
 
 export const UIntValueColumn: ValueObjectTypeOrmColumn<UIntValueColumnOptions, UIntPrimaryKeyColumnOptions> = {
   asRaw(options: UIntValueColumnOptions = { type: 'int', nullable: false }): EntitySchemaColumnOptions {
@@ -31,10 +39,27 @@ export const UIntValueColumn: ValueObjectTypeOrmColumn<UIntValueColumnOptions, U
     return s;
   },
 
-  asPrimaryKey(voConstructor: VOCtor, options: UIntPrimaryKeyColumnOptions = { generated: true, type: 'int' }): EntitySchemaColumnOptions {
-    const s = UIntValueColumn.as(voConstructor);
+  asPrimaryKey(voConstructor: VOCtor, options: UIntPrimaryKeyColumnOptions = defaultPKOptions): EntitySchemaColumnOptions {
+    const s: any = UIntValueColumn.as(voConstructor, { type: options.type });
     s.primary = true;
+    if (options.generated && options.generatedIdentity === 'ALWAYS') {
+      s.insert = false;
+    }
+
     s.generated = options.generated;
+    s.generatedIdentity = options.generatedIdentity ?? "ALWAYS";
+    return s;
+  },
+
+  asPrimaryKeyIdentity(voConstructor: VOCtor, options: {
+    type: UIntColumnTypeOption,
+    generatedIdentity: PGGeneratedIdentityType
+  } = { generatedIdentity: "ALWAYS", type: 'int' }): EntitySchemaColumnOptions {
+    const s: any = UIntValueColumn.asPrimaryKey(voConstructor, {
+      type: options.type,
+      generated: "identity",
+      generatedIdentity: options.generatedIdentity ?? "ALWAYS",
+    } as any);
     return s;
   },
 };

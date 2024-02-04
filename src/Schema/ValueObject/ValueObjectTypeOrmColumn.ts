@@ -7,7 +7,7 @@ export interface ValueObjectTypeOrmColumnOptions {
 }
 
 export type ValueObjectAsPrimaryKeyColumnOptions = {
-  generated?: true | null;
+  generated?: true | 'identity' | 'increment' | 'uuid' | null;
 };
 
 export interface RawValueObjectColumn<O extends ValueObjectTypeOrmColumnOptions = ValueObjectTypeOrmColumnOptions> {
@@ -17,13 +17,14 @@ export interface RawValueObjectColumn<O extends ValueObjectTypeOrmColumnOptions 
 export interface ValueObjectTypeOrmColumn<
   O extends ValueObjectTypeOrmColumnOptions = ValueObjectTypeOrmColumnOptions,
   OP extends ValueObjectAsPrimaryKeyColumnOptions = ValueObjectAsPrimaryKeyColumnOptions,
-> extends RawValueObjectColumn {
+> extends RawValueObjectColumn<O> {
   asPrimaryKey(voConstructor: any, options?: OP): EntitySchemaColumnOptions;
+  asPrimaryKeyIdentity?(voConstructor: any, options?: Omit<OP, 'generated'>): EntitySchemaColumnOptions;
   as(voConstructor: any, options?: O): EntitySchemaColumnOptions;
 }
 
 export interface SelfValueObjectTypeOrmColumn<
-O extends ValueObjectTypeOrmColumnOptions = ValueObjectTypeOrmColumnOptions,
+  O extends ValueObjectTypeOrmColumnOptions = ValueObjectTypeOrmColumnOptions,
 > {
   asSelf(options?: O): EntitySchemaColumnOptions;
 }
