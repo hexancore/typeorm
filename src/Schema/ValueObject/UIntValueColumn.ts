@@ -1,6 +1,6 @@
 import { EntitySchemaColumnOptions } from 'typeorm';
 import { UIntValue, UIntValueConstructor } from '@hexancore/common';
-import { ValueObjectAsPrimaryKeyColumnOptions, ValueObjectTypeOrmColumn, ValueObjectTypeOrmColumnOptions } from './ValueObjectTypeOrmColumn';
+import { ValueObjectAsPrimaryKeyColumnOptions, ValueObjectTypeOrmColumn, ValueObjectTypeOrmColumnOptions, type PKValueObjectColumn } from './ValueObjectTypeOrmColumn';
 
 type VOCtor = UIntValueConstructor<any>;
 
@@ -19,7 +19,7 @@ export type UIntPrimaryKeyColumnOptions = ValueObjectAsPrimaryKeyColumnOptions &
 
 const defaultPKOptions: UIntPrimaryKeyColumnOptions = { generated: "increment", generatedIdentity: "ALWAYS", type: 'int' };
 
-export const UIntValueColumn: ValueObjectTypeOrmColumn<UIntValueColumnOptions, UIntPrimaryKeyColumnOptions> = {
+export const UIntValueColumn: ValueObjectTypeOrmColumn<UIntValueColumnOptions, UIntPrimaryKeyColumnOptions>&PKValueObjectColumn<UIntPrimaryKeyColumnOptions> = {
   asRaw(options: UIntValueColumnOptions = { type: 'int', nullable: false }): EntitySchemaColumnOptions {
     return {
       type: options.type,
