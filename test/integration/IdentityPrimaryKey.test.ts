@@ -2,15 +2,14 @@
  * @group integration
  */
 
-import { AccountDataSourceContext, DataSourceManager } from '@';
+import { AccountDataSourceContext} from '@';
 import { HcTypeOrmModule } from '@/HcTypeOrmModule';
 import { OK, AccountId } from '@hexancore/common';
 import { AccountContext, AggregateRootRepositoryManager, HcModule } from '@hexancore/core';
 import { Test, TestingModule } from '@nestjs/testing';
-import { IdentityPrimaryKeyAuthor } from '@test/Module/Test/Domain/IdentityPrimaryKeyAuthor';
-import { Author, AuthorId, AuthorRepository, Book } from '@test/Module/Test/Domain/test_entities';
-import type { TypeOrmAuthorIdentityPrimaryKeyRepository } from '@test/Module/Test/Infrastructure/Persistance/TypeOrm';
-import { PrivateTestInfraModule } from '@test/Module/Test/Infrastructure/PrivateTestInfraModule';
+import { IdentityPrimaryKeyAuthor } from '@test/src/Test/Domain/IdentityPrimaryKeyAuthor';
+import type { TypeOrmAuthorIdentityPrimaryKeyRepository } from '@test/src/Test/Infrastructure/Persistance/TypeOrm';
+import { PrivateTestInfraModule } from '@test/src/Test/Infrastructure/PrivateTestInfraModule';
 import { ClsService } from 'nestjs-cls';
 
 describe('IdentityPrimaryKey', () => {

@@ -5,8 +5,8 @@ import {
   TypeOrmAggregateRootRepository,
   UIntValueColumn
 } from '@';
-import { IdentityPrimaryKeyAuthor } from '@test/Module/Test/Domain/IdentityPrimaryKeyAuthor';
-import { AuthorId } from '@test/Module/Test/Domain/test_entities';
+import { IdentityPrimaryKeyAuthor } from '@test/src/Test/Domain/IdentityPrimaryKeyAuthor';
+import { AuthorId } from '@test/src/Test/Domain/test_entities';
 
 export const AuthorIdentityPrimaryKeySchema = TypeOrmAccountEntitySchema(IdentityPrimaryKeyAuthor, {
 

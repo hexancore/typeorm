@@ -5,7 +5,7 @@ import {
   TypeOrmEntityRepository,
   UIntValueColumn
 } from '@';
-import { AuthorId, Book, BookId } from '@test/Module/Test/Domain/test_entities';
+import { AuthorId, Book, BookId } from '@test/src/Test/Domain/test_entities';
 
 export const BookSchema = TypeOrmAccountEntitySchema(Book, {
   columns: {

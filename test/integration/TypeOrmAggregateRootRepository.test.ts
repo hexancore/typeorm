@@ -6,8 +6,8 @@ import { HcTypeOrmModule } from '@/HcTypeOrmModule';
 import { OK, AccountId } from '@hexancore/common';
 import { AccountContext, AggregateRootRepositoryManager, HcModule } from '@hexancore/core';
 import { Test, TestingModule } from '@nestjs/testing';
-import { Author, AuthorId, AuthorRepository, Book } from '@test/Module/Test/Domain/test_entities';
-import { PrivateTestInfraModule } from '@test/Module/Test/Infrastructure/PrivateTestInfraModule';
+import { Author, AuthorId, AuthorRepository, Book } from '@test/src/Test/Domain/test_entities';
+import { PrivateTestInfraModule } from '@test/src/Test/Infrastructure/PrivateTestInfraModule';
 import { ClsService } from 'nestjs-cls';
 
 describe('TypeOrmAggregateRootRepository', () => {
