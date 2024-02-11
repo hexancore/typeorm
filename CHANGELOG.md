@@ -6,11 +6,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Module in places directly in `src/`.
+
 ## [0.13.3] - 2024-02-04
 
 ## Fixed
 
-- fixed UIntValueColumn.asPrimaryKeyIdentity()
+- fixed UIntValueColumn.asPrimaryKeyIdentity().
 
 ## [0.13.2] - 2024-02-04
 

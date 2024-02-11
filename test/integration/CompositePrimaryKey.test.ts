@@ -6,8 +6,8 @@ import { AccountId } from '@hexancore/common';
 import { HcTypeOrmModule} from '@';
 import { AccountContext, AggregateRootRepositoryManager, HcModule } from '@hexancore/core';
 import { Test, TestingModule } from '@nestjs/testing';
-import { AuthorId, BookId, CompositeAuthor, CompositeAuthorRepository, CompositeBook } from '@test/Module/Test/Domain/test_entities';
-import { PrivateTestInfraModule } from '@test/Module/Test/Infrastructure/PrivateTestInfraModule';
+import { AuthorId, BookId, CompositeAuthor, CompositeAuthorRepository, CompositeBook } from '@test/src/Test/Domain/test_entities';
+import { PrivateTestInfraModule } from '@test/src/Test/Infrastructure/PrivateTestInfraModule';
 import { ClsService } from 'nestjs-cls';
 
 describe('CompositePrimaryKey', () => {

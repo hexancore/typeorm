@@ -5,7 +5,7 @@ import {
   TypeOrmEntityRepository,
   UIntValueColumn
 } from '@';
-import { AuthorId, BookId, CompositeBook } from '@test/Module/Test/Domain/test_entities';
+import { AuthorId, BookId, CompositeBook } from '@test/src/Test/Domain/test_entities';
 
 
 export const CompositeBookSchema = TypeOrmAccountEntitySchema(CompositeBook, {
