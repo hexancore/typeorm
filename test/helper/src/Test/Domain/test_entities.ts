@@ -16,8 +16,8 @@ export class BookId extends UIntValue {}
 
 @Entity()
 export class Book extends AbstractEntity<BookId, Author> {
-  public readonly authorId: AuthorId;
-  public readonly createdAt: DateTime;
+  public readonly authorId!: AuthorId;
+  public readonly createdAt!: DateTime;
 
   public constructor(public name: string) {
     super();
@@ -41,8 +41,8 @@ export class Author extends AbstractAggregateRoot<AuthorId> {
 
 @Entity()
 export class CompositeBook extends AbstractEntity<BookId, CompositeAuthor> {
-  public readonly authorId: AuthorId;
-  public readonly createdAt: DateTime;
+  public readonly authorId!: AuthorId;
+  public readonly createdAt!: DateTime;
 
   public constructor(
     id: BookId,

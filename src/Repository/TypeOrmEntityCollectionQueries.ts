@@ -1,4 +1,4 @@
-import { AR, ERR, ERRA, LogicError, OK, OKA, R } from '@hexancore/common';
+import { AR, ERR, LogicError, OK, R } from '@hexancore/common';
 import { AbstractEntity, EntityCollectionImpl, EntityCollectionQueriesImpl, EntityIdTypeOf } from '@hexancore/core';
 import { AbstractTypeOrmEntityRepository } from './AbstractTypeOrmEntityRepository';
 
@@ -6,11 +6,10 @@ import { AbstractTypeOrmEntityRepository } from './AbstractTypeOrmEntityReposito
  * TypeOrm queries for entity collection
  */
 export class TypeOrmEntityCollectionQueries<T extends AbstractEntity<any, any>, RepositoryType extends AbstractTypeOrmEntityRepository<T, any>>
-  implements EntityCollectionQueriesImpl<T>
-{
-  public collection: EntityCollectionImpl<T>;
+  implements EntityCollectionQueriesImpl<T> {
+  public collection!: EntityCollectionImpl<T>;
 
-  public constructor(private r: RepositoryType) {}
+  public constructor(private r: RepositoryType) { }
 
   public all(): AsyncGenerator<R<T>, void, void> {
     if (this.collection === undefined) {
@@ -24,6 +23,7 @@ export class TypeOrmEntityCollectionQueries<T extends AbstractEntity<any, any>, 
 
       if (entities.isError()) {
         yield ERR<T>(entities.e);
+        return;
       }
 
       for (const entity of entities.v) {

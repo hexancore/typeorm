@@ -14,7 +14,7 @@ export abstract class AbstractTypeOrmEntityRepository<
   T extends AbstractEntity<any, any>,
   P extends TypeOrmEntityPersister<T, EntityMeta<T>> = TypeOrmEntityPersister<T, EntityMeta<T>>,
 > extends AbstractEntityRepository<T, P> {
-  protected getByIdCallback: (id: EntityIdTypeOf<T>, rootId: AggregateRootIdTypeOf<T>) => AR<T>;
+  protected getByIdCallback!: (id: EntityIdTypeOf<T>, rootId: AggregateRootIdTypeOf<T>) => AR<T>;
 
   protected createCollectionQueries(): EntityCollectionQueries<T> {
     return new TypeOrmEntityCollectionQueries(this);

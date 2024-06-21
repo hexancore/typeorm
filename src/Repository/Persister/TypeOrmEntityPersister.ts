@@ -4,7 +4,7 @@ import { AbstractEntityCommon, AbstractEntityPersister, AbstractEntityRepository
 import { DataSource, EntityManager, EntityMetadata, FindManyOptions, FindOneOptions, Repository, UpdateValuesMissingError } from 'typeorm';
 import { ColumnMetadata } from 'typeorm/metadata/ColumnMetadata';
 
-const SAVE_ERROR_HANDLER = (e: Error) => (e instanceof UpdateValuesMissingError ? IGNORE_ERROR() : INTERNAL_ERROR(e));
+const SAVE_ERROR_HANDLER = (e: unknown) => (e instanceof UpdateValuesMissingError ? IGNORE_ERROR() : INTERNAL_ERROR(e as Error));
 
 const ID_TO_WHERE_HELPER = {
   one: (id: any) => OKA({ id }),
@@ -15,8 +15,8 @@ const ID_TO_WHERE_HELPER = {
  * Executes all operations for selected repository on database.
  */
 export class TypeOrmEntityPersister<T extends AbstractEntityCommon<any>, M extends EntityMetaCommon<T>> extends AbstractEntityPersister<T, M> {
-  protected typeOrmMeta: EntityMetadata;
-  protected idToWhereFn: (id: EntityIdTypeOf<T>) => AR<Record<string, any>>;
+  protected typeOrmMeta!: EntityMetadata;
+  protected idToWhereFn!: (id: EntityIdTypeOf<T>) => AR<Record<string, any>>;
 
   public constructor(
     repository: AbstractEntityRepositoryCommon<T, TypeOrmEntityPersister<T, M>, any>,
@@ -61,9 +61,9 @@ export class TypeOrmEntityPersister<T extends AbstractEntityCommon<any>, M exten
 
   public getOneBy(options: FindOneOptions<T>): AR<T> {
     return this.getTypeOrmRepository().onOk((r) => {
-      return ARW(r.findOne(options)).onOk((entity: T) => {
+      return ARW(r.findOne(options)).onOk((entity) => {
         if (!entity) {
-          return this.NOT_FOUND<T>(options.where);
+          return this.NOT_FOUND<T>(options.where!);
         }
         this.markAsTracked([entity]);
         return entity;
@@ -104,7 +104,7 @@ export class TypeOrmEntityPersister<T extends AbstractEntityCommon<any>, M exten
 
   protected loadPropertiesToFillWithNow(): AR<string[]> {
     return this.getTypeOrmEntityMetadata().onOk((meta) => {
-      const list = [];
+      const list: string[] = [];
       meta.columns.forEach((c: ColumnMetadata) => {
         if (c.type === 'timestamp' && !c.isNullable) {
           list.push(c.propertyName);

@@ -5,19 +5,16 @@ import {
   TypeOrmEntityRepository,
   UIntValueColumn
 } from '@';
-import { AuthorId, Book, BookId } from '@test/src/Test/Domain/test_entities';
+import { AuthorId, Book, BookId } from '@testhelper/src/Test/Domain/test_entities';
 
 export const BookSchema = TypeOrmAccountEntitySchema(Book, {
   columns: {
     id: UIntValueColumn.asPrimaryKey(BookId),
     authorId: UIntValueColumn.as(AuthorId, { type: 'smallint' }),
-    name: {
-      type: 'varchar',
-      length: 255,
-    },
+    name: { type: 'varchar', length: 255 },
     createdAt: DateTimeColumn.asSelf(),
   },
 });
 
 @TypeOrmEntityRepository(BookSchema)
-export class TypeOrmBookRepository extends AbstractTypeOrmEntityRepository<Book> {}
+export class TypeOrmBookRepository extends AbstractTypeOrmEntityRepository<Book> { }

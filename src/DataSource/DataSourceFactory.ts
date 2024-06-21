@@ -1,9 +1,9 @@
-import { AR, ARW, AsyncResult, INTERNAL_ERR, INTERNAL_ERRA, P, RetryHelper, RetryMaxAttemptsError } from '@hexancore/common';
-import { DataSource, EntitySchema } from 'typeorm';
+import { TypeOrmGlobalSchemaManager } from '@/Schema/TypeOrmSchemaManager';
+import { AR, ARW, INTERNAL_ERR, INTERNAL_ERRA, RetryHelper, RetryMaxAttemptsError } from '@hexancore/common';
+import { DataSource } from 'typeorm';
 import { MysqlConnectionOptions } from 'typeorm/driver/mysql/MysqlConnectionOptions';
 import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions';
 import { DataSourceContextConfig } from './DataSourceContextConfig';
-import { TypeOrmGlobalSchemaManager } from '@/Schema/TypeOrmSchemaManager';
 export type ConnectionOptions = MysqlConnectionOptions | PostgresConnectionOptions;
 
 export interface DataSourceFactoryOptions {
@@ -23,7 +23,7 @@ export class DataSourceFactory {
   public create(config: DataSourceContextConfig): AR<DataSource, RetryMaxAttemptsError> {
     const database = this.getDatabase(config.id);
     const entities = TypeOrmGlobalSchemaManager.getByPersisterType(config.persisterType);
-    const options: ConnectionOptions | any = {
+    const options: ConnectionOptions & any = {
       ...this.options.common,
       database,
       entities,
@@ -31,7 +31,7 @@ export class DataSourceFactory {
 
     return RetryHelper.retryAsync(
       () => {
-        let ds: DataSource = null;
+        let ds: DataSource| null = null;
         try {
           ds = new DataSource(options);
           return ARW(ds.initialize());
@@ -42,7 +42,7 @@ export class DataSourceFactory {
               .onErr(() => INTERNAL_ERR<DataSource, any>(e));
           }
 
-          return INTERNAL_ERRA(e);
+          return INTERNAL_ERRA(e as any);
         }
       },
       {

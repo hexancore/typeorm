@@ -1,7 +1,7 @@
 import { DataSource, EntityManager } from 'typeorm';
 import { DataSourceManager, WeakDataSourceRef } from './DataSourceManager';
 import { DataSourceContextConfig } from './DataSourceContextConfig';
-import { AR } from '@hexancore/common/lib/mjs';
+import { AR } from '@hexancore/common';
 
 export abstract class DataSourceContext {
   public constructor(private manager: DataSourceManager) {}
@@ -15,10 +15,10 @@ export abstract class DataSourceContext {
   protected abstract getConfig(): AR<DataSourceContextConfig>;
 
   public getDataSource(): AR<DataSource> {
-    return this.get().onOk((r) => r.ds);
+    return this.get().onOk((r) => r.ds!);
   }
 
   public getEntityManager(): AR<EntityManager> {
-    return this.get().onOk((r) => r.em);
+    return this.get().onOk((r) => r.em!);
   }
 }
