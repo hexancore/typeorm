@@ -1,4 +1,4 @@
-test/
+/test/
 tsconfig.build.json
 tsconfig.common.json
 tsconfig.json
@@ -18,6 +18,7 @@ yarn.lock
 .eslintrc.js
 .eslintignore
 .jestrc.json
+jest.config.ts
 config/
 CONTRIBUTION.md
 tmp/
@@ -26,3 +27,4 @@ docker/
 node_modules/
 Makefile
 .swcrc
+CHANGELOG.md

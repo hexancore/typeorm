@@ -6,8 +6,8 @@ import { AccountId } from '@hexancore/common';
 import { HcTypeOrmModule} from '@';
 import { AccountContext, AggregateRootRepositoryManager, HcModule } from '@hexancore/core';
 import { Test, TestingModule } from '@nestjs/testing';
-import { AuthorId, BookId, CompositeAuthor, CompositeAuthorRepository, CompositeBook } from '@test/src/Test/Domain/test_entities';
-import { PrivateTestInfraModule } from '@test/src/Test/Infrastructure/PrivateTestInfraModule';
+import { AuthorId, BookId, CompositeAuthor, CompositeAuthorRepository, CompositeBook } from '@testhelper/src/Test/Domain/test_entities';
+import { PrivateTestInfraModule } from '@testhelper/src/Test/Infrastructure/PrivateTestInfraModule';
 import { ClsService } from 'nestjs-cls';
 
 describe('CompositePrimaryKey', () => {
@@ -27,7 +27,7 @@ describe('CompositePrimaryKey', () => {
         ],
       }).compile();
 
-      authorRepository = await module.get(AggregateRootRepositoryManager).get<CompositeAuthorRepository>(CompositeAuthor);
+      authorRepository = (await module.get(AggregateRootRepositoryManager)).get<CompositeAuthorRepository>(CompositeAuthor);
     });
 
     afterEach(async () => {
@@ -56,7 +56,7 @@ describe('CompositePrimaryKey', () => {
         expect(ab.length).toBe(2);
         expect(ab).toEqual([book1, book2]);
 
-        const currentBookById = await r.v[0].books.getById(ab[0].id);
+        const currentBookById = await r.v[0].books.getById(ab[0].id!);
         expect(currentBookById).toMatchSuccessResult(book1);
       });
     });

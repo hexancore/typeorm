@@ -4,7 +4,7 @@ import {
   TypeOrmAggregateRootRepository,
   UIntValueColumn,
 } from '@';
-import { AuthorId, CompositeAuthor, CompositeAuthorRepository } from '@test/src/Test/Domain/test_entities';
+import { AuthorId, CompositeAuthor, CompositeAuthorRepository } from '@testhelper/src/Test/Domain/test_entities';
 
 export const CompositeAuthorSchema = TypeOrmAccountEntitySchema(CompositeAuthor, {
   columns: {

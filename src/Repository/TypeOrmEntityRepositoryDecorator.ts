@@ -24,10 +24,10 @@ function extractPersisterTypeFromPath(p: string): string {
         return TYPEORM_SYSTEM_PERSISTER_TYPE;
       case 'Account':
         return TYPEORM_ACCOUNT_PERSISTER_TYPE;
-      default:
-        throw new LogicError('Wrong entity repository path: ' + p);
     }
   }
+
+  throw new LogicError('Wrong entity repository path: ' + p);
 }
 
 /**
@@ -54,6 +54,6 @@ export type TypeOrmAggregateRootRepositoryConstructor<T extends AnyTypeOrmAggreg
 export function TypeOrmAggregateRootRepository<T extends AnyAggregateRoot, R extends AbstractTypeOrmAggregateRootRepository<T>>(
   schema: EntitySchema<T>,
 ): (constructor: TypeOrmAggregateRootRepositoryConstructor<R>) => void {
-
-  return applyDecorators(AggregateRootRepository(schema.options.target as any, getHcPersisterTypeFromSchema(schema)), Injectable());
+  const repositoryDecorator: ClassDecorator = AggregateRootRepository(schema.options.target as any, getHcPersisterTypeFromSchema(schema)) as any;
+  return applyDecorators(repositoryDecorator, Injectable());
 }

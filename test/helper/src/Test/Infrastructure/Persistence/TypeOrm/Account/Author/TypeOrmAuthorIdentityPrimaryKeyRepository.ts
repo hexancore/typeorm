@@ -5,17 +5,14 @@ import {
   TypeOrmAggregateRootRepository,
   UIntValueColumn
 } from '@';
-import { IdentityPrimaryKeyAuthor } from '@test/src/Test/Domain/IdentityPrimaryKeyAuthor';
-import { AuthorId } from '@test/src/Test/Domain/test_entities';
+import { IdentityPrimaryKeyAuthor } from '@testhelper/src/Test/Domain/IdentityPrimaryKeyAuthor';
+import { AuthorId } from '@testhelper/src/Test/Domain/test_entities';
 
 export const AuthorIdentityPrimaryKeySchema = TypeOrmAccountEntitySchema(IdentityPrimaryKeyAuthor, {
 
   columns: {
     id: UIntValueColumn.asPrimaryKeyIdentity(AuthorId),
-    name: StringValueColumn.asRaw({
-      type: "varchar",
-      length: 32
-    })
+    name: StringValueColumn.asRaw({ type: "varchar", length: 32 })
   },
 });
 

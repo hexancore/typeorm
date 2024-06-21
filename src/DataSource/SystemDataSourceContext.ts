@@ -15,24 +15,24 @@ export class SystemDataSourceContext extends DataSourceContext {
       persisterType: TYPEORM_SYSTEM_PERSISTER_TYPE,
     });
   }
-  private ref: WeakDataSourceRef;
+  private ref!: WeakDataSourceRef;
 
   public get(): AR<WeakDataSourceRef> {
     if (this.ref) {
       return OKA(this.ref);
     }
 
-    return super.get().onOk((ref) => {
+    return super.get().onOk((ref: WeakDataSourceRef) => {
       this.ref = ref;
       return ref;
     });
   }
 
   public getDataSource(): AR<DataSource> {
-    return this.get().onOk((r) => r.ds);
+    return this.get().onOk((r) => r.ds!);
   }
 
   public getEntityManager(): AR<EntityManager> {
-    return this.get().onOk((r) => r.em);
+    return this.get().onOk((r) => r.em!);
   }
 }

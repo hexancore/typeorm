@@ -4,7 +4,7 @@ import {
   TypeOrmAggregateRootRepository,
   UIntValueColumn
 } from '@';
-import { Author, AuthorId, AuthorRepository } from '@test/src/Test/Domain/test_entities';
+import { Author, AuthorId, AuthorRepository } from '@testhelper/src/Test/Domain/test_entities';
 
 export const AuthorSchema = TypeOrmAccountEntitySchema(Author, {
 

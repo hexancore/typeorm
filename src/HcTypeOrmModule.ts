@@ -138,7 +138,7 @@ export class HcTypeOrmModule extends ConfigurableModuleClass implements OnApplic
         return OK(true);
       });
     } catch (e) {
-      logger.log(INTERNAL_ERROR(e));
+      logger.log(INTERNAL_ERROR(e as any));
     }
   }
 }
