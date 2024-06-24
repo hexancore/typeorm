@@ -57,7 +57,7 @@
   },
   "devDependencies": {
     "@hexancore/common": "^0.14.0",
-    "@hexancore/core": "^0.15.2",
+    "@hexancore/core": "^0.15.3",
     "@hexancore/mocker": "^1.1.2",
     "@nestjs/cli": "^10.3.2",
     "@nestjs/common": "^10.3.9",
@@ -112,7 +112,7 @@
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "lint": "eslint \"{src,test}/**/*.ts\"",
     "lint:fix": "eslint \"{src,test}/**/*.ts\" --fix",
-    "test": "jest  --runInBand",
+    "test": "jest --runInBand",
     "test:clearCache": "jest   --clearCache",
     "test:unit": "jest  --runInBand --group=unit",
     "test:watch": "jest  --runInBand --watchAll",

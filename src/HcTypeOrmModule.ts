@@ -51,8 +51,8 @@ const { ConfigurableModuleClass, MODULE_OPTIONS_TOKEN } = new ConfigurableModule
           throw new LogicError('Empty config key for typeorm: ' + configPath);
         }
 
-        const supportedDrivers = ['mysql', 'postgres', 'mariadb'];
-        if (['mysql', 'postgres', 'mariadb'].indexOf(c.type) === -1) {
+        const supportedDrivers = ['postgres', 'mariadb'];
+        if (['postgres', 'mariadb'].indexOf(c.type) === -1) {
           throw new LogicError(`HcTypeOrmModule supports only [${supportedDrivers.join(", ")}] drivers`);
         }
 

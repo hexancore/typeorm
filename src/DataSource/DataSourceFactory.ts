@@ -29,22 +29,21 @@ export class DataSourceFactory {
       entities,
     };
 
-    return RetryHelper.retryAsync(
-      () => {
-        let ds: DataSource| null = null;
-        try {
-          ds = new DataSource(options);
-          return ARW(ds.initialize());
-        } catch (e) {
-          if (ds && ds.isInitialized) {
-            return ARW(ds.destroy())
-              .onOk(() => INTERNAL_ERR<DataSource, any>(e))
-              .onErr(() => INTERNAL_ERR<DataSource, any>(e));
-          }
-
-          return INTERNAL_ERRA(e as any);
+    return RetryHelper.retryAsync(() => {
+      let ds: DataSource | null = null;
+      try {
+        ds = new DataSource(options);
+        return ARW(ds.initialize());
+      } catch (e) {
+        if (ds && ds.isInitialized) {
+          return ARW(ds.destroy())
+            .onOk(() => INTERNAL_ERR<DataSource, any>(e))
+            .onErr(() => INTERNAL_ERR<DataSource, any>(e));
         }
-      },
+
+        return INTERNAL_ERRA(e as any);
+      }
+    },
       {
         id: 'create_typeorm_data_source_' + config.id,
         retryDelay: this.options.retryDelay,

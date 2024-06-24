@@ -6,6 +6,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Updated @hexancore/common to 0.14.*
+- Updated @hexancore/core to  ^0.15.*
+
+### Removed
+
+- removed support for mysql driver
+
+
 ## [0.14.0] - 2024-02-11
 
 ### Changed

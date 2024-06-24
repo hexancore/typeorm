@@ -719,9 +719,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hexancore/core@npm:^0.15.2":
-  version: 0.15.2
-  resolution: "@hexancore/core@npm:0.15.2"
+"@hexancore/core@npm:^0.15.3":
+  version: 0.15.3
+  resolution: "@hexancore/core@npm:0.15.3"
   dependencies:
     "@fastify/cookie": "npm:^9.3.1"
     "@fastify/cors": "npm:^9.0.1"
@@ -754,7 +754,7 @@ __metadata:
     "@nestjs/platform-fastify": ^10.3.9
     "@nestjs/swagger": ^7.1.8
     nestjs-cls: ^4.3.0
-  checksum: 10c0/e669fb2c325ea202929d80b6fcfe2e0b41a471a37fd4a907ef6484518d9200bd8a3d0940ffff56456d2c70ffeb565fd181423e31c257533950cd4023622dd978
+  checksum: 10c0/e072b1155f8b4f02948a429f4d4de2c78a224c96f793cd75967e8637b095855ec41f761b5e327738558f0da1106a22223063c2960e8e7ad7254bce3f06b229f2
   languageName: node
   linkType: hard
 
@@ -770,7 +770,7 @@ __metadata:
   resolution: "@hexancore/typeorm@workspace:."
   dependencies:
     "@hexancore/common": "npm:^0.14.0"
-    "@hexancore/core": "npm:^0.15.2"
+    "@hexancore/core": "npm:^0.15.3"
     "@hexancore/mocker": "npm:^1.1.2"
     "@nestjs/cli": "npm:^10.3.2"
     "@nestjs/common": "npm:^10.3.9"

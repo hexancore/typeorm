@@ -1,5 +1,5 @@
 core:
-  typeorm-mysql:
+  typeorm-mariadb:
     type: mariadb
     host: 127.0.0.1
     port: 10020
@@ -7,7 +7,7 @@ core:
     dropSchema: true
     retryAttempts: 4
     retryDelay: 3000
-    authSecretKey: core.typeorm.mysql
+    authSecretKey: core.typeorm.mariadb
   typeorm-postgres:
     type: postgres
     host: 127.0.0.1
