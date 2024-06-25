@@ -1,13 +1,13 @@
 import { AR, OKA } from '@hexancore/common';
 import { DataSource, EntityManager } from 'typeorm';
-import { DataSourceContext } from './DataSourceContext';
+import { AbstractDataSourceContext } from './AbstractDataSourceContext';
 import { DataSourceContextConfig } from './DataSourceContextConfig';
 import { WeakDataSourceRef } from './DataSourceManager';
 import { Injectable } from '@nestjs/common';
 import { TYPEORM_SYSTEM_PERSISTER_TYPE } from '@/Repository';
 
 @Injectable()
-export class SystemDataSourceContext extends DataSourceContext {
+export class SystemDataSourceContext extends AbstractDataSourceContext {
   protected getConfig(): AR<DataSourceContextConfig> {
     return OKA({
       id: 'system',

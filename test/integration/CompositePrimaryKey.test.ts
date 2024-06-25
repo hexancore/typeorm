@@ -25,8 +25,7 @@ describe('CompositePrimaryKey', () => {
           }),
           PrivateTestInfraModule,
         ],
-      }).compile();
-
+      }).compile({});
       authorRepository = (await module.get(AggregateRootRepositoryManager)).get<CompositeAuthorRepository>(CompositeAuthor);
     });
 

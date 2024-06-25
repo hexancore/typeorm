@@ -13,6 +13,9 @@ export interface DataSourceFactoryOptions {
   maxRetryAttempts?: number;
 }
 
+/**
+ * Factory to create TypeORM DataSource(db connection) from given context config.
+ */
 export class DataSourceFactory {
   public constructor(private options: DataSourceFactoryOptions) {
     options.dbPrefix = options.dbPrefix ?? '';

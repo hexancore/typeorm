@@ -5,7 +5,6 @@ import {
   TypeOrmEntityRepository,
   UIntValueColumn
 } from '@';
-import { Inject } from '@nestjs/common';
 import { AuthorId, Book, BookId } from '@testhelper/src/Test/Domain/test_entities';
 
 export const BookSchema = TypeOrmAccountEntitySchema(Book, {

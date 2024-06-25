@@ -11,6 +11,10 @@ export interface WeakDataSourceRef {
   initPromise?: AR<WeakDataSourceRef>;
 }
 
+/**
+ * Manages active database connections.
+ * Connection can be closed after defined idle timeout.
+ */
 export class DataSourceManager {
   private map: Map<string, WeakDataSourceRef>;
   private logger: Logger;
@@ -21,7 +25,7 @@ export class DataSourceManager {
     private ct: CurrentTime,
   ) {
     this.map = new Map();
-    this.logger = getLogger('core.typeorm.infra.data_source');
+    this.logger = getLogger('core.typeorm.infra.data_source', ['core', 'typeorm']);
   }
 
   public async get(context: DataSourceContextConfig): ARP<WeakDataSourceRef> {

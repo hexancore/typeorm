@@ -53,11 +53,12 @@
   "dependencies": {
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.0",
-    "tslib": "^2.6.3"
+    "tslib": "^2.6.3",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@hexancore/common": "^0.14.0",
-    "@hexancore/core": "^0.15.3",
+    "@hexancore/core": "^0.15.4",
     "@hexancore/mocker": "^1.1.2",
     "@nestjs/cli": "^10.3.2",
     "@nestjs/common": "^10.3.9",
@@ -112,12 +113,12 @@
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "lint": "eslint \"{src,test}/**/*.ts\"",
     "lint:fix": "eslint \"{src,test}/**/*.ts\" --fix",
-    "test": "jest --runInBand",
-    "test:clearCache": "jest   --clearCache",
-    "test:unit": "jest  --runInBand --group=unit",
-    "test:watch": "jest  --runInBand --watchAll",
-    "test:cov": "jest   --coverage",
-    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest  --runInBand",
+    "jest": "node --disable-warning=ExperimentalWarning --experimental-vm-modules node_modules/jest/bin/jest.js --config jest.config.ts",
+    "test": "yarn run jest --runInBand",
+    "test:clearCache": "yarn run jest --clearCache",
+    "test:unit": "yarn run jest --runInBand  --group=unit",
+    "test:watch": "yarn run jest --runInBand --watchAll",
+    "test:cov": "yarn run jest --coverage",
     "prepublish": "yarn run build",
     "deps:upgrade": "yarn add -D @hexancore/common @hexancore/core"
   }
