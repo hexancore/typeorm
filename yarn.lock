@@ -719,9 +719,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hexancore/core@npm:^0.15.2":
-  version: 0.15.2
-  resolution: "@hexancore/core@npm:0.15.2"
+"@hexancore/core@npm:^0.15.4":
+  version: 0.15.4
+  resolution: "@hexancore/core@npm:0.15.4"
   dependencies:
     "@fastify/cookie": "npm:^9.3.1"
     "@fastify/cors": "npm:^9.0.1"
@@ -754,7 +754,7 @@ __metadata:
     "@nestjs/platform-fastify": ^10.3.9
     "@nestjs/swagger": ^7.1.8
     nestjs-cls: ^4.3.0
-  checksum: 10c0/e669fb2c325ea202929d80b6fcfe2e0b41a471a37fd4a907ef6484518d9200bd8a3d0940ffff56456d2c70ffeb565fd181423e31c257533950cd4023622dd978
+  checksum: 10c0/d98aa23a63ea0d5eb235580e7b7e4a17b4dcce6719a8a7e952d7285e1db695151a82d21ddb5a5bb9756abe144fdcbb81e919264944d568d6642471b8e2f64427
   languageName: node
   linkType: hard
 
@@ -770,7 +770,7 @@ __metadata:
   resolution: "@hexancore/typeorm@workspace:."
   dependencies:
     "@hexancore/common": "npm:^0.14.0"
-    "@hexancore/core": "npm:^0.15.2"
+    "@hexancore/core": "npm:^0.15.4"
     "@hexancore/mocker": "npm:^1.1.2"
     "@nestjs/cli": "npm:^10.3.2"
     "@nestjs/common": "npm:^10.3.9"
@@ -808,6 +808,7 @@ __metadata:
     tslib: "npm:^2.6.3"
     typeorm: "npm:^0.3.20"
     typescript: "npm:5.4.5"
+    zod: "npm:^3.23.8"
   peerDependencies:
     "@hexancore/common": ^0.14.0
     "@hexancore/core": ^0.15.1
@@ -8666,5 +8667,12 @@ __metadata:
   version: 0.1.0
   resolution: "yocto-queue@npm:0.1.0"
   checksum: 10c0/dceb44c28578b31641e13695d200d34ec4ab3966a5729814d5445b194933c096b7ced71494ce53a0e8820685d1d010df8b2422e5bf2cdea7e469d97ffbea306f
+  languageName: node
+  linkType: hard
+
+"zod@npm:^3.23.8":
+  version: 3.23.8
+  resolution: "zod@npm:3.23.8"
+  checksum: 10c0/8f14c87d6b1b53c944c25ce7a28616896319d95bc46a9660fe441adc0ed0a81253b02b5abdaeffedbeb23bdd25a0bf1c29d2c12dd919aef6447652dd295e3e69
   languageName: node
   linkType: hard

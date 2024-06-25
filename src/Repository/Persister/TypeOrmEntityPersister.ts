@@ -1,5 +1,5 @@
-import { DataSourceContext } from '@/DataSource/DataSourceContext';
-import { AR, ARW, AppError, ERR, GetQueryOptions, IGNORE_ERROR, INTERNAL_ERROR, OK, OKA, P, isIgnoreError, wrapToArray } from '@hexancore/common';
+import type { AbstractDataSourceContext } from '@/DataSource';
+import { AR, ARW, ERR, GetQueryOptions, IGNORE_ERROR, INTERNAL_ERROR, OK, OKA, P, isIgnoreError, wrapToArray } from '@hexancore/common';
 import { AbstractEntityCommon, AbstractEntityPersister, AbstractEntityRepositoryCommon, EntityIdTypeOf, EntityMetaCommon } from '@hexancore/core';
 import { DataSource, EntityManager, EntityMetadata, FindManyOptions, FindOneOptions, Repository, UpdateValuesMissingError } from 'typeorm';
 import { ColumnMetadata } from 'typeorm/metadata/ColumnMetadata';
@@ -20,7 +20,7 @@ export class TypeOrmEntityPersister<T extends AbstractEntityCommon<any>, M exten
 
   public constructor(
     repository: AbstractEntityRepositoryCommon<T, TypeOrmEntityPersister<T, M>, any>,
-    protected context: DataSourceContext,
+    protected context: AbstractDataSourceContext,
   ) {
     super(repository);
   }

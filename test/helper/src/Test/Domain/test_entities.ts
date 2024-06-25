@@ -12,21 +12,21 @@ import {
 } from '@hexancore/core';
 
 @ValueObject('Test')
-export class BookId extends UIntValue {}
+export class BookId extends UIntValue { }
 
 @Entity()
 export class Book extends AbstractEntity<BookId, Author> {
   public readonly authorId!: AuthorId;
   public readonly createdAt!: DateTime;
 
-  public constructor(public name: string) {
+  public constructor(public title: string) {
     super();
     return this.proxify();
   }
 }
 
 @ValueObject('Test')
-export class AuthorId extends UIntValue {}
+export class AuthorId extends UIntValue { }
 
 @AggregateRoot()
 export class Author extends AbstractAggregateRoot<AuthorId> {
@@ -46,7 +46,7 @@ export class CompositeBook extends AbstractEntity<BookId, CompositeAuthor> {
 
   public constructor(
     id: BookId,
-    public name: string,
+    public title: string,
   ) {
     super();
     this.id = id;
@@ -65,7 +65,7 @@ export class CompositeAuthor extends AbstractAggregateRoot<AuthorId> {
   }
 }
 
-export interface AuthorRepository extends IAggregateRootRepository<Author> {}
+export interface AuthorRepository extends IAggregateRootRepository<Author> { }
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface CompositeAuthorRepository extends IAggregateRootRepository<CompositeAuthor> {}
+export interface CompositeAuthorRepository extends IAggregateRootRepository<CompositeAuthor> { }

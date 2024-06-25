@@ -14,7 +14,7 @@ describe('CompositePrimaryKey', () => {
   let module: TestingModule;
   let authorRepository: CompositeAuthorRepository;
 
-  describe.each([{ driver: 'mysql' }, { driver: 'postgres' }])('$driver', ({ driver }) => {
+  describe.each([{ driver: 'mariadb' }, { driver: 'postgres' }])('$driver', ({ driver }) => {
     beforeEach(async () => {
       module = await Test.createTestingModule({
         imports: [
@@ -25,8 +25,7 @@ describe('CompositePrimaryKey', () => {
           }),
           PrivateTestInfraModule,
         ],
-      }).compile();
-
+      }).compile({});
       authorRepository = (await module.get(AggregateRootRepositoryManager)).get<CompositeAuthorRepository>(CompositeAuthor);
     });
 

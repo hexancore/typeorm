@@ -14,11 +14,11 @@ describe('TypeOrmAggregateRootRepository', () => {
   let module: TestingModule;
   let authorRepository: AuthorRepository;
 
-  describe.each([{ driver: 'mysql' }, { driver: 'postgres' }])('$driver', ({ driver }) => {
+  describe.each([{ driver: 'mariadb' }, { driver: 'postgres' }])('$driver', ({ driver }) => {
     beforeEach(async () => {
       module = await Test.createTestingModule({
         imports: [
-          HcModule.forRoot({ cls: true, accountContext: {useCls: true, currentAccountId: AccountId.cs("test")} }),
+          HcModule.forRoot({ cls: true, accountContext: { useCls: true, currentAccountId: AccountId.cs("test") } }),
           HcTypeOrmModule.forRoot({
             configPath: 'core.typeorm-' + driver,
             accountContext: true,
@@ -53,19 +53,24 @@ describe('TypeOrmAggregateRootRepository', () => {
           const book = new Book('test');
           author.books.add(book);
 
-          let r: any = await authorRepository.persist(author);
+          const persistResult = await authorRepository.persist(author);
 
-          expect(r).toMatchSuccessResult(true);
+          expect(persistResult).toMatchSuccessResult(true);
 
-          r = await authorRepository.getAllAsArray();
-          expect(r.v[0].id).toEqual(author.id);
-          const abr = await r.v[0].books.getAllAsArray();
-          expect(abr.isSuccess()).toBeTruthy();
-          const ab = abr.v;
-          expect(ab.length).toBe(1);
-          expect(ab[0]).toEqual(book);
-          const currentBookById = await r.v[0].books.getById(ab[0].id);
-          expect(currentBookById).toEqual(OK(book));
+          const repositoryGetAllResult = await authorRepository.getAllAsArray();
+          expect(repositoryGetAllResult.isSuccess()).toBeTruthy();
+          const authors = repositoryGetAllResult.v;
+          expect(authors.length).toBe(1);
+          expect(authors[0].id).toEqual(author.id);
+
+          const authorBooksGetAllResult = await authors[0].books.getAllAsArray();
+          expect(authorBooksGetAllResult.isSuccess()).toBeTruthy();
+          const books = authorBooksGetAllResult.v;
+          expect(books.length).toBe(1);
+          expect(books[0]).toEqual(book);
+
+          const authorBooksGetByIdResult = await authors[0].books.getById(books[0].id!);
+          expect(authorBooksGetByIdResult).toEqual(OK(book));
         }),
       );
 
@@ -81,13 +86,13 @@ describe('TypeOrmAggregateRootRepository', () => {
           let r = await authorRepository.getAllAsArray();
           const abr = await r.v[0].books.getAllAsArray();
           const ab = abr.v;
-          ab[0].name = 'test_new_name';
+          ab[0].title = 'test_new_name';
           r.v[0].books.update(ab[0]);
 
           await authorRepository.persist(r.v[0]);
 
           r = await authorRepository.getAllAsArray();
-          expect((await r.v[0].books.getAllAsArray()).v[0].name).toEqual('test_new_name');
+          expect((await r.v[0].books.getAllAsArray()).v[0].title).toEqual('test_new_name');
         });
       });
     });

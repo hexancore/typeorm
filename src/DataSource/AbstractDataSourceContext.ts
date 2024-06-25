@@ -3,8 +3,8 @@ import { DataSourceManager, WeakDataSourceRef } from './DataSourceManager';
 import { DataSourceContextConfig } from './DataSourceContextConfig';
 import { AR } from '@hexancore/common';
 
-export abstract class DataSourceContext {
-  public constructor(private manager: DataSourceManager) {}
+export abstract class AbstractDataSourceContext {
+  public constructor(private manager: DataSourceManager) { }
 
   public get(): AR<WeakDataSourceRef> {
     return this.getConfig().onOk((config) => {

@@ -11,7 +11,7 @@ export const CompositeBookSchema = TypeOrmAccountEntitySchema(CompositeBook, {
   columns: {
     authorId: UIntValueColumn.asPrimaryKey(AuthorId, { type: 'smallint', generated: null }),
     id: UIntValueColumn.asPrimaryKey(BookId, { type: 'smallint', generated: null }),
-    name: { type: 'varchar', length: 255 },
+    title: { type: 'varchar', length: 255 },
     createdAt: DateTimeColumn.asSelf(),
   },
 });
