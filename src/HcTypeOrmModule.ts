@@ -53,10 +53,9 @@ const { ConfigurableModuleClass, MODULE_OPTIONS_TOKEN } = new ConfigurableModule
       provide: DataSourceFactory,
       inject: [CONFIG_TOKEN, AppConfig],
       useFactory: (typeOrmConfig: any, config: AppConfig) => {
-        const secret = config.secrets.getAsBasicAuth(typeOrmConfig.authSecretKey);
-        secret.panicIfError();
-        typeOrmConfig.commonDataSourceConfig.username = secret.v.username;
-        typeOrmConfig.commonDataSourceConfig.password = secret.v.password;
+        const auth = config.getSecretAsBasicAuth(typeOrmConfig.authSecretKey);
+        typeOrmConfig.commonDataSourceConfig.username = auth.username;
+        typeOrmConfig.commonDataSourceConfig.password = auth.password;
 
         return new DataSourceFactory({
           common: typeOrmConfig.commonDataSourceConfig,
