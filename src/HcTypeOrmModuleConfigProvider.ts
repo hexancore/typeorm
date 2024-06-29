@@ -39,7 +39,7 @@ export const HcTypeOrmModuleConfigProvider = (moduleOptionsToken: string | symbo
     inject: [AppConfig, moduleOptionsToken],
     useFactory: (config: AppConfig, options: HcTypeOrmModuleOptions) => {
       const configPath = options.configPath ?? 'core.typeorm';
-      const c = config.config.get(configPath);
+      const c = config.getOrPanic(configPath);
       const parsedConfig = parseConfig(c);
 
       const isProd = AppMeta.get().isProd();
